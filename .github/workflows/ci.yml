@@ -41,18 +41,6 @@ jobs:
           chmod 600 ~/.ssh/hailo-ci
           ssh-keyscan -H ${{ secrets.PI_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Debug key type
-        run: |
-          echo "Key type in runner:"
-          ssh-keygen -lf ~/.ssh/hailo-ci
-
-      - name: Test SSH connection
-        run: |
-          echo "Testing SSH..."
-          ssh -vvv -i /home/runner/.ssh/hailo-ci \
-            -o StrictHostKeyChecking=no \
-            ${{ secrets.PI_USER }}@${{ secrets.PI_HOST }} "echo 'SSH connected successfully!'"
-
       - name: Prepare release directory on Raspberry Pi
         uses: appleboy/ssh-action@v1.2.0
         with:
