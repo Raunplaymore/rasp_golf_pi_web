@@ -6,7 +6,7 @@ module.exports = {
     {
       name: "hailo-front", // CI에서 pm2 reload 대상으로 사용하는 이름
       // Vite preview 서버 실행 (빌드 산출물 미리보기)
-      cwd: process.env.FRONT_HOME || "/home/pi/hailo-front/current",
+      cwd: process.env.FRONT_HOME || "/home/ray/hailo-front/current",
       script: "npm",
       args: "run preview -- --host 0.0.0.0 --port 4173",
       exec_mode: "fork",
@@ -19,7 +19,7 @@ module.exports = {
     {
       name: "hailo-front-dev",
       // 개발용 Vite dev 서버 (필요 시만 사용)
-      cwd: process.env.FRONT_HOME || "/home/pi/hailo-front/current",
+      cwd: process.env.FRONT_HOME || "/home/ray/hailo-front/current",
       script: "npm",
       args: "run dev -- --host 0.0.0.0 --port 5173",
       exec_mode: "fork",
