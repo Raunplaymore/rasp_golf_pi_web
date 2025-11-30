@@ -31,6 +31,7 @@ jobs:
 
       - name: Set release name
         run: echo "RELEASE_NAME=$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
+
       - name: Write SSH private key
         run: |
           mkdir -p ~/.ssh
