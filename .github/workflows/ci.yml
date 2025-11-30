@@ -41,12 +41,17 @@ jobs:
           chmod 600 ~/.ssh/hailo-ci
           ssh-keyscan -H ${{ secrets.PI_HOST }} >> ~/.ssh/known_hosts
 
+      - name: Verify SSH key file
+        run: |
+          ls -la ~/.ssh
+          ssh-keygen -lf ~/.ssh/hailo-ci
+
       - name: Prepare release directory on Raspberry Pi
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.PI_HOST }}
           username: ${{ secrets.PI_USER }}
-          key_path: /home/runner/.ssh/hailo-ci
+          key: ${{ env.PI_SSH_KEY_RSA }}
           script: |
             RELEASES_DIR=~/hailo-front/releases
             TARGET="$RELEASES_DIR/${RELEASE_NAME}"
@@ -66,7 +71,7 @@ jobs:
         with:
           host: ${{ secrets.PI_HOST }}
           username: ${{ secrets.PI_USER }}
-          key_path: /home/runner/.ssh/hailo-ci
+          key: ${{ env.PI_SSH_KEY_RSA }}
           script: |
             RELEASES_DIR=~/hailo-front/releases
             CURRENT_LINK=~/hailo-front/current
