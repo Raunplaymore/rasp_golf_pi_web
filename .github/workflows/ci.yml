@@ -34,19 +34,6 @@ jobs:
       - name: Set release name
         run: echo "RELEASE_NAME=$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
 
-      - name: Write SSH private key
-        run: |
-          mkdir -p ~/.ssh
-          printf '%s' "$PI_SSH_KEY" > ~/.ssh/hailo-ci
-          chmod 600 ~/.ssh/hailo-ci
-          ssh-keyscan -H ${{ secrets.PI_HOST }} >> ~/.ssh/known_hosts
-
-      - name: Verify SSH key file
-        run: |
-          ls -la ~/.ssh
-          ssh-keygen -yf ~/.ssh/hailo-ci > /tmp/hailo-ci.pub
-          ssh-keygen -lf /tmp/hailo-ci.pub
-
       - name: Prepare release directory on Raspberry Pi
         uses: appleboy/ssh-action@v1.2.0
         with:
@@ -63,7 +50,7 @@ jobs:
         with:
           host: ${{ secrets.PI_HOST }}
           username: ${{ secrets.PI_USER }}
-          key_path: /home/runner/.ssh/hailo-ci
+          key: $PI_SSH_KEY
           source: "dist/*"
           target: "~/hailo-front/releases/${{ env.RELEASE_NAME }}"
 
