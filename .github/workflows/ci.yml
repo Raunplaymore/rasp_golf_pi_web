@@ -33,11 +33,11 @@ jobs:
         run: echo "RELEASE_NAME=$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
 
       - name: Write SSH private key
+        env:
+          PI_SSH_KEY: ${{ secrets.PI_SSH_KEY }}
         run: |
           mkdir -p ~/.ssh
-          cat > ~/.ssh/hailo-ci << 'EOF'
-          ${{ secrets.PI_SSH_KEY }}
-          EOF
+          printf '%s' "$PI_SSH_KEY" > ~/.ssh/hailo-ci
           chmod 600 ~/.ssh/hailo-ci
           ssh-keyscan -H ${{ secrets.PI_HOST }} >> ~/.ssh/known_hosts
 
