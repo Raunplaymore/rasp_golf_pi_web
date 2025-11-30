@@ -46,7 +46,7 @@ jobs:
         with:
           host: ${{ secrets.PI_HOST }}
           username: ${{ secrets.PI_USER }}
-          key: ${{ env.PI_SSH_KEY_RSA }}
+          kekey_pathy: ${{ env.PI_SSH_KEY_RSA }}
           script: |
             RELEASES_DIR=~/hailo-front/releases
             TARGET="$RELEASES_DIR/${RELEASE_NAME}"
