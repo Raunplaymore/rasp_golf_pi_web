@@ -36,8 +36,8 @@ jobs:
         run: |
           mkdir -p ~/.ssh
           # Secret 에 들어있는 멀티라인 키를 그대로 파일로 저장
-          printf '%s\n' "${{ secrets.PI_SSH_KEY }}" > ~/.ssh/hailo-ci
-          chmod 600 ~/.ssh/hailo-ci
+          printf '%s\n' "${{ secrets.PI_SSH_KEY }}" > ~/.ssh/hailo-ci-rsa
+          chmod 600 ~/.ssh/hailo-ci-rsa
           ssh-keyscan -H ${{ secrets.PI_HOST }} >> ~/.ssh/known_hosts
 
       - name: Verify SSH connection
