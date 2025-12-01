@@ -6,6 +6,9 @@ type UploadResponse = {
 };
 
 function App() {
+  // 개발(Vite 프록시)에서는 빈 문자열, 배포 시에는 VITE_API_BASE로 백엔드 호스트 설정 (예: https://example.com 또는 http://localhost:3000)
+  const API_BASE = import.meta.env.VITE_API_BASE || "";
+
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [message, setMessage] = useState<string>("");
@@ -28,9 +31,12 @@ function App() {
     setDeleting(name);
     setMessage(`"${name}" 삭제 중...`);
     try {
-      const res = await fetch(`/api/files/${encodeURIComponent(name)}`, {
-        method: "DELETE",
-      });
+      const res = await fetch(
+        `${API_BASE}/api/files/${encodeURIComponent(name)}`,
+        {
+          method: "DELETE",
+        }
+      );
       if (!res.ok) {
         throw new Error("삭제 실패");
       }
@@ -51,7 +57,7 @@ function App() {
 
   const fetchFiles = async () => {
     try {
-      const res = await fetch("/api/files");
+      const res = await fetch(`${API_BASE}/api/files`);
       if (!res.ok) {
         throw new Error("목록 요청 실패");
       }
@@ -73,7 +79,7 @@ function App() {
     formData.append("video", selectedFile);
 
     try {
-      const res = await fetch("/api/upload", {
+      const res = await fetch(`${API_BASE}/api/upload`, {
         method: "POST",
         body: formData,
       });
