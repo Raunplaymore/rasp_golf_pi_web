@@ -142,7 +142,7 @@ function App() {
               lineHeight: 1.25,
             }}
           >
-            아이폰 Safari 전용 업로드 툴
+            Hailo App
           </h1>
         </header>
 
