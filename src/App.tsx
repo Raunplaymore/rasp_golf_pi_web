@@ -7,6 +7,7 @@ import { MetricsTable } from "./components/analysis/MetricsTable";
 import { CoachSummary } from "./components/analysis/CoachSummary";
 import { useUpload } from "./hooks/useUpload";
 import { useShots } from "./hooks/useShots";
+import { useAnalysis } from "./hooks/useAnalysis";
 import { Shot } from "./types/shots";
 
 type TabKey = "upload" | "list" | "player" | "analysis";
@@ -55,6 +56,8 @@ function App() {
     selected?.videoUrl ||
     (selected ? `${API_BASE}/uploads/${encodeURIComponent(selected.filename)}` : "");
 
+  const { analysis, isLoading: isAnalysisLoading, error: analysisError } = useAnalysis(selected);
+
   return (
     <Shell tabs={tabs} active={activeTab} onChange={setActiveTab}>
       {activeTab === "upload" && (
@@ -92,8 +95,12 @@ function App() {
 
       {activeTab === "analysis" && (
         <div className="grid gap-4 lg:grid-cols-2">
-          <MetricsTable analysis={selected?.analysis} />
-          <CoachSummary comments={selected?.analysis?.coach_summary ?? []} />
+          <div className="space-y-2">
+            {isAnalysisLoading && <p className="text-sm text-slate-500">분석 불러오는 중...</p>}
+            {analysisError && <p className="text-sm text-red-600">{analysisError}</p>}
+            <MetricsTable analysis={analysis} />
+          </div>
+          <CoachSummary comments={analysis?.coach_summary ?? []} />
         </div>
       )}
     </Shell>
