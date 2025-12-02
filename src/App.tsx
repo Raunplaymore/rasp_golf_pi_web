@@ -1,22 +1,19 @@
 import { useEffect, useRef, useState } from "react";
+import { Button } from "./components/Button";
+import { Card } from "./components/Card";
 
-type UploadResponse = {
-  ok: boolean;
-  file?: string;
-};
+type UploadResponse = { ok: boolean; file?: string };
 
 function App() {
-  // 개발(Vite 프록시)에서는 빈 문자열, 배포 시에는 VITE_API_BASE로 백엔드 호스트 설정 (예: https://example.com 또는 http://localhost:3000)
   const API_BASE = import.meta.env.VITE_API_BASE || "";
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
-  const [message, setMessage] = useState<string>("");
+  const [message, setMessage] = useState("");
   const [files, setFiles] = useState<string[]>([]);
   const [deleting, setDeleting] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  // 최초 진입 시 한번 목록 조회
   useEffect(() => {
     fetchFiles();
   }, []);
@@ -37,13 +34,9 @@ function App() {
           method: "DELETE",
         }
       );
-      if (!res.ok) {
-        throw new Error("삭제 실패");
-      }
+      if (!res.ok) throw new Error("삭제 실패");
       const data: { ok: boolean } = await res.json();
-      if (!data.ok) {
-        throw new Error("삭제 실패");
-      }
+      if (!data.ok) throw new Error("삭제 실패");
 
       setFiles((prev) => prev.filter((file) => file !== name));
       setMessage("삭제 완료");
@@ -58,9 +51,7 @@ function App() {
   const fetchFiles = async () => {
     try {
       const res = await fetch(`${API_BASE}/api/files`);
-      if (!res.ok) {
-        throw new Error("목록 요청 실패");
-      }
+      if (!res.ok) throw new Error("목록 요청 실패");
       const data: string[] = await res.json();
       setFiles(data);
     } catch (error) {
@@ -83,22 +74,14 @@ function App() {
         method: "POST",
         body: formData,
       });
-
-      if (!res.ok) {
-        throw new Error("업로드 실패");
-      }
+      if (!res.ok) throw new Error("업로드 실패");
 
       const data: UploadResponse = await res.json();
-      if (!data.ok) {
-        throw new Error("업로드 실패");
-      }
+      if (!data.ok) throw new Error("업로드 실패");
 
       setMessage("업로드 완료!");
       setSelectedFile(null);
-      // 선택값 초기화 (iOS Safari에서 동일 파일 재선택 가능하게)
-      if (fileInputRef.current) {
-        fileInputRef.current.value = "";
-      }
+      if (fileInputRef.current) fileInputRef.current.value = "";
       await fetchFiles();
     } catch (error) {
       console.error(error);
@@ -109,203 +92,84 @@ function App() {
   };
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background: "#f9fafb",
-        display: "flex",
-        justifyContent: "center",
-        padding: "24px",
-        boxSizing: "border-box",
-      }}
-    >
-      <main
-        style={{
-          width: "100%",
-          maxWidth: "520px",
-          background: "#fff",
-          borderRadius: "16px",
-          boxShadow: "0 10px 30px rgba(0,0,0,0.08)",
-          padding: "20px 20px 28px",
-          boxSizing: "border-box",
-        }}
-      >
-        <header style={{ marginBottom: "16px" }}>
-          <p
-            style={{
-              fontSize: "14px",
-              color: "#6b7280",
-              margin: "0 0 6px",
-            }}
-          >
-           나의 스윙 영상 업로드
-          </p>
-          <h1
-            style={{
-              fontSize: "22px",
-              margin: 0,
-              color: "#111827",
-              lineHeight: 1.25,
-            }}
-          >
+    <div className="min-h-screen bg-slate-50 flex justify-center px-6 py-6">
+      <main className="w-full max-w-xl">
+        <header className="mb-4">
+          <p className="text-sm text-slate-500 mb-1">나의 스윙 영상 업로드</p>
+          <h1 className="text-2xl font-semibold text-slate-900 leading-tight">
             Hailo App
           </h1>
         </header>
 
-        <section
-          style={{
-            display: "grid",
-            gap: "14px",
-            marginBottom: "18px",
-          }}
-        >
-          <label
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "8px",
-              padding: "14px",
-              border: "1px dashed #d1d5db",
-              borderRadius: "12px",
-              background: "#f9fafb",
-            }}
-          >
-            <span style={{ fontSize: "14px", color: "#374151" }}>
-              영상 파일을 선택하세요
-            </span>
+        <Card className="grid gap-3 mb-4">
+          <label className="flex flex-col gap-2 p-4 border border-dashed border-slate-300 rounded-xl bg-slate-50">
+            <span className="text-sm text-slate-700">영상 파일을 선택하세요</span>
             <input
               ref={fileInputRef}
               type="file"
               accept="video/*"
               onChange={handleFileChange}
-              style={{ fontSize: "16px" }}
+              className="text-base"
             />
           </label>
 
-          <button
+          <Button
             type="button"
             onClick={handleUpload}
             disabled={!selectedFile || isUploading}
-            style={{
-              width: "100%",
-              padding: "14px",
-              fontSize: "17px",
-              fontWeight: 600,
-              borderRadius: "12px",
-              border: "none",
-              color: "#fff",
-              background: isUploading ? "#9ca3af" : "#2563eb",
-              boxShadow: "0 10px 25px rgba(37,99,235,0.18)",
-              opacity: !selectedFile || isUploading ? 0.8 : 1,
-              transition: "background 0.2s ease, transform 0.1s ease",
-            }}
+            isLoading={isUploading}
+            loadingText="업로드 중..."
           >
-            {isUploading ? "업로드 중..." : "업로드"}
-          </button>
+            업로드
+          </Button>
 
-          <button
+          <Button
             type="button"
             onClick={fetchFiles}
-            style={{
-              width: "100%",
-              padding: "12px",
-              fontSize: "16px",
-              fontWeight: 600,
-              borderRadius: "12px",
-              border: "1px solid #d1d5db",
-              color: "#111827",
-              background: "#f3f4f6",
-            }}
+            variant="outline"
           >
             파일 목록 새로고침
-          </button>
-        </section>
+          </Button>
+        </Card>
 
-        <section style={{ marginBottom: "16px" }}>
-          <p style={{ fontSize: "14px", color: "#6b7280", marginBottom: "8px" }}>
-            업로드 상태
-          </p>
-          <div
-            style={{
-              minHeight: "40px",
-              padding: "12px",
-              borderRadius: "10px",
-              background: "#f9fafb",
-              color: "#111827",
-              fontSize: "15px",
-            }}
-          >
+        <Card className="mb-4">
+          <p className="text-sm text-slate-500 mb-2">업로드 상태</p>
+          <div className="min-h-[40px] p-3 rounded-lg bg-slate-50 text-slate-900 text-base">
             {message || "메시지가 여기에 표시됩니다."}
           </div>
-        </section>
+        </Card>
 
-        <section>
-          <p style={{ fontSize: "14px", color: "#6b7280", marginBottom: "8px" }}>
-            업로드된 파일
-          </p>
+        <Card>
+          <p className="text-sm text-slate-500 mb-2">업로드된 파일</p>
           {files.length === 0 ? (
-            <div
-              style={{
-                padding: "14px",
-                borderRadius: "12px",
-                border: "1px solid #e5e7eb",
-                color: "#6b7280",
-                background: "#f9fafb",
-              }}
-            >
+            <div className="p-4 rounded-xl border border-slate-200 text-slate-500 bg-slate-50">
               아직 등록된 파일이 없습니다.
             </div>
           ) : (
-            <ul
-              style={{
-                listStyle: "none",
-                padding: 0,
-                margin: 0,
-                display: "grid",
-                gap: "8px",
-              }}
-            >
+            <ul className="list-none p-0 m-0 grid gap-2">
               {files.map((name) => (
                 <li
                   key={name}
-                  style={{
-                    padding: "12px",
-                    borderRadius: "12px",
-                    border: "1px solid #e5e7eb",
-                    background: "#fff",
-                    color: "#111827",
-                    fontSize: "15px",
-                    wordBreak: "break-all",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    gap: "12px",
-                  }}
+                  className="p-3 rounded-xl border border-slate-200 bg-white text-slate-900 text-base break-words flex items-center justify-between gap-3"
                 >
-                  <span style={{ flex: 1 }}>{name}</span>
-                  <button
+                  <span className="flex-1">{name}</span>
+                  <Button
                     type="button"
                     onClick={() => handleDelete(name)}
                     disabled={deleting === name}
-                    style={{
-                      border: "1px solid #ef4444",
-                      background: deleting === name ? "#fecdd3" : "#fee2e2",
-                      color: "#b91c1c",
-                      borderRadius: "999px",
-                      padding: "6px 10px",
-                      fontSize: "13px",
-                      fontWeight: 700,
-                      minWidth: "48px",
-                    }}
+                    isLoading={deleting === name}
+                    loadingText="삭제중"
+                    variant="danger"
+                    className="w-auto"
                     aria-label={`${name} 삭제`}
                   >
-                    {deleting === name ? "삭제중" : "삭제"}
-                  </button>
+                    삭제
+                  </Button>
                 </li>
               ))}
             </ul>
           )}
-        </section>
+        </Card>
       </main>
     </div>
   );
