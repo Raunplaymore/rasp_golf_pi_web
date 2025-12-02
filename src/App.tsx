@@ -92,8 +92,8 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex justify-center px-6 py-6">
-      <main className="w-full max-w-xl">
+    <div className="min-h-screen bg-slate-50 flex justify-center px-4 py-6 sm:px-6">
+      <main className="w-full max-w-lg mx-auto space-y-4">
         <header className="mb-4">
           <p className="text-sm text-slate-500 mb-1">나의 스윙 영상 업로드</p>
           <h1 className="text-2xl font-semibold text-slate-900 leading-tight">
@@ -102,14 +102,14 @@ function App() {
         </header>
 
         <Card className="grid gap-3 mb-4">
-          <label className="flex flex-col gap-2 p-4 border border-dashed border-slate-300 rounded-xl bg-slate-50">
+          <label className="w-full flex flex-col gap-2 p-4 border border-dashed border-slate-300 rounded-xl bg-slate-50">
             <span className="text-sm text-slate-700">영상 파일을 선택하세요</span>
             <input
               ref={fileInputRef}
               type="file"
               accept="video/*"
               onChange={handleFileChange}
-              className="text-base"
+              className="text-base w-full"
             />
           </label>
 
@@ -150,7 +150,7 @@ function App() {
               {files.map((name) => (
                 <li
                   key={name}
-                  className="p-3 rounded-xl border border-slate-200 bg-white text-slate-900 text-base break-words flex items-center justify-between gap-3"
+                  className="p-3 rounded-xl border border-slate-200 bg-white text-slate-900 text-base break-words flex items-center justify-between gap-3 w-full"
                 >
                   <span className="flex-1">{name}</span>
                   <Button
