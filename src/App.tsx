@@ -12,6 +12,7 @@ function App() {
   const [message, setMessage] = useState("");
   const [files, setFiles] = useState<string[]>([]);
   const [deleting, setDeleting] = useState<string | null>(null);
+  const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
@@ -153,21 +154,51 @@ function App() {
                   className="p-3 rounded-xl border border-slate-200 bg-white text-slate-900 text-base break-words flex items-center justify-between gap-3 w-full"
                 >
                   <span className="flex-1">{name}</span>
-                  <Button
-                    type="button"
-                    onClick={() => handleDelete(name)}
-                    disabled={deleting === name}
-                    isLoading={deleting === name}
-                    loadingText="삭제중"
-                    variant="danger"
-                    className="w-auto"
-                    aria-label={`${name} 삭제`}
-                  >
-                    삭제
-                  </Button>
+                  <div className="flex items-center gap-2">
+                    <Button
+                      type="button"
+                      onClick={() => setSelectedVideo(name)}
+                      variant="outline"
+                      className="w-auto px-3 py-1 text-sm"
+                    >
+                      보기
+                    </Button>
+                    <Button
+                      type="button"
+                      onClick={() => handleDelete(name)}
+                      disabled={deleting === name}
+                      isLoading={deleting === name}
+                      loadingText="삭제중"
+                      variant="danger"
+                      className="w-auto"
+                      aria-label={`${name} 삭제`}
+                    >
+                      삭제
+                    </Button>
+                  </div>
                 </li>
               ))}
             </ul>
+          )}
+        </Card>
+
+        <Card>
+          <p className="text-sm text-slate-500 mb-2">선택한 영상</p>
+          {selectedVideo ? (
+            <div className="space-y-2">
+              <p className="text-sm text-slate-700 break-words">{selectedVideo}</p>
+              <video
+                key={selectedVideo}
+                className="w-full rounded-lg border border-slate-200"
+                controls
+                preload="metadata"
+                src={`${API_BASE}/uploads/${encodeURIComponent(selectedVideo)}`}
+              >
+                브라우저에서 video 태그를 지원하지 않습니다.
+              </video>
+            </div>
+          ) : (
+            <p className="text-slate-500">목록에서 영상을 선택하면 미리보기 할 수 있습니다.</p>
           )}
         </Card>
       </main>
