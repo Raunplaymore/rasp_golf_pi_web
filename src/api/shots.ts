@@ -1,13 +1,42 @@
 import { client } from "./client";
 import { Shot } from "../types/shots";
 
-export const fetchShots = () => client.get<Shot[]>("/api/shots");
+type UploadRes = { ok: boolean; file: string };
 
-export const fetchShot = (id: string) => client.get<Shot>(`/api/shots/${id}`);
+// Backend 현재 엔드포인트: /api/files (GET), /api/upload (POST)
+export const fetchShots = async (): Promise<Shot[]> => {
+  const filenames = await client.get<string[]>("/api/files");
+  const now = new Date().toISOString();
+  return filenames.map((name) => ({
+    id: name,
+    filename: name,
+    videoUrl: `/uploads/${encodeURIComponent(name)}`,
+    sourceType: "upload",
+    createdAt: now,
+  }));
+};
 
-export const createShot = (file: File, sourceType: "upload" | "camera" = "upload") => {
+export const fetchShot = async (id: string): Promise<Shot> => {
+  // 최소 정보로 반환 (상세 API 없을 때 호환)
+  return {
+    id,
+    filename: id,
+    videoUrl: `/uploads/${encodeURIComponent(id)}`,
+    sourceType: "upload",
+    createdAt: new Date().toISOString(),
+  };
+};
+
+export const createShot = async (file: File, sourceType: "upload" | "camera" = "upload") => {
   const fd = new FormData();
   fd.append("video", file);
   fd.append("sourceType", sourceType);
-  return client.post<Shot>("/api/shots", fd);
+  const res = await client.post<UploadRes>("/api/upload", fd);
+  return {
+    id: res.file,
+    filename: res.file,
+    videoUrl: `/uploads/${encodeURIComponent(res.file)}`,
+    sourceType,
+    createdAt: new Date().toISOString(),
+  } as Shot;
 };
