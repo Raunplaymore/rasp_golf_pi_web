@@ -34,6 +34,12 @@ jobs:
       - name: Set release name
         run: echo "RELEASE_NAME=$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
 
+      - name: Check Tailscale reachability
+        run: |
+          tailscale status || true
+          ping -c 3 ${{ secrets.PI_HOST }} || true
+          nc -zv ${{ secrets.PI_HOST }} 22 || true
+
       - name: Write SSH private key
         run: |
           mkdir -p ~/.ssh
