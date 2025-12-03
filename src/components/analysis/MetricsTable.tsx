@@ -42,7 +42,6 @@ const metricDefs = [
   { key: "spin_bias", label: "Spin bias", labelKor: "스핀 성향(fade/draw)" },
   { key: "side_curve_intensity", label: "Side curve intensity", labelKor: "사이드 커브 강도" },
   { key: "apex_height_relative", label: "Apex height relative", labelKor: "상대 최고점" },
-  { key: "side_deviation", label: "Side deviation", labelKor: "좌/우 편차" },
   { key: "projected_carry_distance", label: "Projected carry distance", labelKor: "예상 캐리 거리" },
   {
     key: "head_movement.horizontal",
@@ -55,8 +54,6 @@ const metricDefs = [
     labelKor: "머리 이동량(세로)",
   },
   { key: "upper_body_tilt_change", label: "Upper body tilt change", labelKor: "상체 기울기 변화" },
-  { key: "shoulder_angle_at_address", label: "Shoulder angle (address)", labelKor: "셋업 시 어깨 각도" },
-  { key: "shoulder_angle_at_impact", label: "Shoulder angle (impact)", labelKor: "임팩트 시 어깨 각도" },
   { key: "shot_type", label: "Shot type", labelKor: "샷 구질 분류" },
 ];
 
@@ -79,11 +76,8 @@ const extraMetricsSet = new Set([
   "head_movement.horizontal",
   "head_movement.vertical",
   "upper_body_tilt_change",
-  "shoulder_angle_at_address",
-  "shoulder_angle_at_impact",
   "side_curve_intensity",
   "apex_height_relative",
-  "side_deviation",
   "initial_velocity",
 ]);
 
