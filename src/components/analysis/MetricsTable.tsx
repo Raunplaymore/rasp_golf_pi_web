@@ -32,17 +32,6 @@ const metricDefs = [
   },
   { key: "on_plane_ratio", label: "On plane ratio", labelKor: "스윙이 플레인에 올라탄 비율(0~1)" },
   { key: "plane_deviation_std", label: "Plane deviation std", labelKor: "플레인 편차 표준편차(작을수록 안정)" },
-  {
-    key: "low_point_position_relative_to_ball",
-    label: "Low point position",
-    labelKor: "로우포인트 위치 (공 이전/이후/직전)",
-  },
-  { key: "low_point_depth", label: "Low point depth", labelKor: "로우포인트 깊이" },
-  {
-    key: "attack_angle_category",
-    label: "Attack angle",
-    labelKor: "어택 앵글 범주 (steep/neutral/shallow)",
-  },
   { key: "vertical_launch_angle", label: "Vertical launch angle", labelKor: "수직 런치 각도(도)" },
   {
     key: "horizontal_launch_direction",
@@ -87,9 +76,6 @@ const extraMetricsSet = new Set([
   "downswing_path_curve",
   "shaft_forward_lean_at_impact",
   "shaft_angle_change_rate",
-  "low_point_position_relative_to_ball",
-  "low_point_depth",
-  "attack_angle_category",
   "head_movement.horizontal",
   "head_movement.vertical",
   "upper_body_tilt_change",
