@@ -54,7 +54,7 @@ export function ShotList({
             className="p-3 rounded-xl border border-slate-200 bg-white text-slate-900 text-base break-words flex flex-col gap-3 w-full"
           >
             <div className="flex flex-col flex-1 min-w-0 gap-1">
-              <span className="font-semibold break-words">{shot.filename}</span>
+              <span className="font-semibold break-words text-sm">{shot.filename}</span>
               <span className="text-xs text-slate-500 break-words">
                 {shot.sourceType} · {shot.shot_type ?? "분류 없음"} · {new Date(shot.createdAt).toLocaleString()}
               </span>
