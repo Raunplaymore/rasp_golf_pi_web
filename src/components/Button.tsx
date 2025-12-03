@@ -4,18 +4,21 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: "primary" | "outline" | "danger";
   loadingText?: string;
   isLoading?: boolean;
+  fullWidth?: boolean;
 };
 
 export function Button({
   variant = "primary",
   isLoading = false,
   loadingText = "Loading...",
+  fullWidth = true,
   className = "",
   children,
   ...rest
 }: ButtonProps) {
-  const base =
-    "w-full rounded-xl font-semibold transition focus:outline-none focus:ring-2 focus:ring-offset-2";
+  const base = `${
+    fullWidth ? "w-full" : "w-auto"
+  } rounded-xl font-semibold transition focus:outline-none focus:ring-2 focus:ring-offset-2`;
 
   const styles = {
     primary:

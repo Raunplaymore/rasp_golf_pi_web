@@ -4,6 +4,7 @@ import { UploadCard } from "./components/upload/UploadCard";
 import { ShotList } from "./components/shots/ShotList";
 import { MetricsTable } from "./components/analysis/MetricsTable";
 import { CoachSummary } from "./components/analysis/CoachSummary";
+import { Button } from "./components/Button";
 import { useUpload } from "./hooks/useUpload";
 import { useShots } from "./hooks/useShots";
 import { useAnalysis } from "./hooks/useAnalysis";
@@ -23,6 +24,7 @@ function App() {
   const [activeTab, setActiveTab] = useState<TabKey>("upload");
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [openShotIds, setOpenShotIds] = useState<Set<string>>(new Set());
+  const [showVideoModal, setShowVideoModal] = useState(false);
 
   const tabs: { key: TabKey; label: string }[] = useMemo(
     () => [
@@ -106,11 +108,54 @@ function App() {
       {activeTab === "analysis" && (
         <div className="grid gap-4 lg:grid-cols-2">
           <div className="space-y-2">
+            <div className="flex justify-end">
+              {selected && (
+                <Button
+                  type="button"
+                  onClick={() => setShowVideoModal(true)}
+                  variant="outline"
+                  className="w-auto px-3 py-1 text-sm"
+                  fullWidth={false}
+                >
+                  영상 보기
+                </Button>
+              )}
+            </div>
             {isAnalysisLoading && <p className="text-sm text-slate-500">분석 불러오는 중...</p>}
             {analysisError && <p className="text-sm text-red-600">{analysisError}</p>}
             <MetricsTable analysis={analysis} />
           </div>
           <CoachSummary comments={analysis?.coach_summary ?? []} />
+        </div>
+      )}
+
+      {showVideoModal && selected && (
+        <div className="fixed inset-0 z-20 flex items-center justify-center bg-black/60 px-4">
+          <div className="bg-white rounded-2xl shadow-xl max-w-3xl w-full p-4 space-y-3">
+            <div className="flex justify-between items-center">
+              <h3 className="text-lg font-semibold text-slate-900 break-words">
+                {selected.filename}
+              </h3>
+              <Button
+                type="button"
+                onClick={() => setShowVideoModal(false)}
+                variant="outline"
+                className="w-auto px-3 py-1 text-sm"
+                fullWidth={false}
+              >
+                닫기
+              </Button>
+            </div>
+            <video
+              key={selected.id}
+              className="w-full rounded-lg border border-slate-200 max-h-[600px] object-contain"
+              controls
+              preload="metadata"
+              src={selectedVideoUrl}
+            >
+              브라우저에서 video 태그를 지원하지 않습니다.
+            </video>
+          </div>
         </div>
       )}
     </Shell>

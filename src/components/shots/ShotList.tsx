@@ -48,24 +48,23 @@ export function ShotList({
         </div>
       ) : (
         <ul className="list-none p-0 m-0 grid gap-2">
-          {shots.map((shot) => (
-            <li
-              key={shot.id}
-              className="p-3 rounded-xl border border-slate-200 bg-white text-slate-900 text-base break-words flex flex-col gap-3 w-full"
-            >
-              <div className="flex items-center justify-between gap-3 w-full">
-                <div className="flex flex-col flex-1 min-w-0">
-                  <span className="font-semibold">{shot.filename}</span>
-                  <span className="text-xs text-slate-500">
-                    {shot.sourceType} · {shot.shot_type ?? "분류 없음"} · {new Date(shot.createdAt).toLocaleString()}
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Button
+        {shots.map((shot) => (
+          <li
+            key={shot.id}
+            className="p-3 rounded-xl border border-slate-200 bg-white text-slate-900 text-base break-words flex flex-col gap-3 w-full"
+          >
+            <div className="flex flex-col flex-1 min-w-0 gap-1">
+              <span className="font-semibold break-words">{shot.filename}</span>
+              <span className="text-xs text-slate-500 break-words">
+                {shot.sourceType} · {shot.shot_type ?? "분류 없음"} · {new Date(shot.createdAt).toLocaleString()}
+              </span>
+              <div className="flex flex-wrap items-center justify-end gap-2 mt-1 ">
+                <Button
                     type="button"
                     onClick={() => onSelect(shot)}
                     variant="outline"
-                    className="w-auto px-3 py-1 text-sm"
+                    className="px-3 py-1 text-sm"
+                    fullWidth={false}
                   >
                     {openIds?.has(shot.id) ? "접기" : "보기"}
                   </Button>
@@ -74,7 +73,8 @@ export function ShotList({
                       type="button"
                       onClick={() => onAnalyze(shot)}
                       variant="outline"
-                      className="w-auto px-3 py-1 text-sm"
+                      className="px-3 py-1 text-sm"
+                      fullWidth={false}
                     >
                       분석
                     </Button>
@@ -86,18 +86,18 @@ export function ShotList({
                       isLoading={deletingId === shot.id}
                       loadingText="삭제중"
                       variant="danger"
-                      className="w-auto"
+                      fullWidth={false}
                       aria-label={`${shot.filename} 삭제`}
                     >
                       삭제
                     </Button>
                   )}
-                </div>
               </div>
-              {openIds?.has(shot.id) && (
-                <div className="w-full">
-                  <video
-                    key={shot.id}
+            </div>
+            {openIds?.has(shot.id) && (
+              <div className="w-full">
+                <video
+                  key={shot.id}
                     className="w-full rounded-lg border border-slate-200 max-h-[600px] object-contain"
                     controls
                     preload="metadata"
