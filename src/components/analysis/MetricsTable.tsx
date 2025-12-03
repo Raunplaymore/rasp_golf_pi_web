@@ -154,9 +154,24 @@ export function MetricsTable({ analysis }: MetricsTableProps) {
           <div
             key={row.label}
             className="flex items-center justify-between py-2 text-sm"
-            title={row.tooltip}
           >
-            <span className="text-slate-600">{row.label}</span>
+            <div className="flex items-center gap-2 text-slate-600">
+              <span>{row.label}</span>
+              {row.tooltip && (
+                <div className="relative group">
+                  <button
+                    type="button"
+                    className="w-4 h-4 rounded-full border border-slate-400 text-[10px] leading-3 text-slate-600 flex items-center justify-center hover:bg-slate-100"
+                    aria-label={row.tooltip}
+                  >
+                    i
+                  </button>
+                  <div className="absolute left-0 top-full mt-1 hidden group-hover:block z-10 whitespace-pre-line rounded bg-slate-800 text-white text-xs px-3 py-2 shadow-lg min-w-[200px] max-w-[320px] break-keep">
+                    {row.tooltip}
+                  </div>
+                </div>
+              )}
+            </div>
             <span className="font-semibold text-slate-900">{row.value ?? "-"}</span>
           </div>
         ))}
