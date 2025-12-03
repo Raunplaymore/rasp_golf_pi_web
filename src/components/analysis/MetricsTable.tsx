@@ -175,21 +175,7 @@ export function MetricsTable({ analysis }: MetricsTableProps) {
             className="flex items-center justify-between py-2 text-sm"
           >
             <div className="flex items-center gap-2 text-slate-600">
-              <span>{row.label}</span>
-              {row.labelKor && (
-                <div className="relative group">
-                  <button
-                    type="button"
-                    className="w-4 h-4 rounded-full border border-slate-400 text-[10px] leading-3 text-slate-600 flex items-center justify-center hover:bg-slate-100"
-                    aria-label={row.labelKor}
-                  >
-                    i
-                  </button>
-                  <div className="absolute left-1/2 -translate-x-1/2 top-full mt-1 hidden group-hover:block z-10 whitespace-normal break-words rounded bg-slate-800 text-white text-xs px-3 py-2 shadow-lg w-max max-w-[320px] text-left leading-relaxed">
-                    {row.labelKor}
-                  </div>
-                </div>
-              )}
+              <span>{row.labelKor}</span>
             </div>
             <span className="font-semibold text-slate-900">{row.value ?? "-"}</span>
           </div>
@@ -213,21 +199,7 @@ export function MetricsTable({ analysis }: MetricsTableProps) {
                   className="flex items-center justify-between py-2 text-sm"
                 >
                   <div className="flex items-center gap-2 text-slate-600">
-                    <span>{row.label}</span>
-                    {row.labelKor && (
-                      <div className="relative group">
-                        <button
-                          type="button"
-                          className="w-4 h-4 rounded-full border border-slate-400 text-[10px] leading-3 text-slate-600 flex items-center justify-center hover:bg-slate-100"
-                          aria-label={row.labelKor}
-                        >
-                          i
-                        </button>
-                        <div className="absolute left-1/2 -translate-x-1/2 top-full mt-1 hidden group-hover:block z-10 whitespace-normal break-words rounded bg-slate-800 text-white text-xs px-3 py-2 shadow-lg w-max max-w-[320px] text-left leading-relaxed">
-                          {row.labelKor}
-                        </div>
-                      </div>
-                    )}
+                    <span>{row.labelKor}</span>
                   </div>
                   <span className="font-semibold text-slate-900">{row.value ?? "-"}</span>
                 </div>
