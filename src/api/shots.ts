@@ -3,8 +3,6 @@ import { Shot, ShotAnalysis } from "../types/shots";
 
 type UploadRes = { ok: boolean; file: string; shot?: Shot };
 type FilesDetailRes = { ok: boolean; files: { filename: string; shotId?: string; analysis?: ShotAnalysis }[] };
-type ShotsResponse = { ok?: boolean; shots?: Shot[] };
-type ShotResponse = { ok?: boolean; shot?: Shot };
 
 const withVideoUrl = (shot: Shot): Shot => ({
   ...shot,
@@ -17,9 +15,6 @@ export const fetchShots = async (): Promise<Shot[]> => {
     const data = await client.get<unknown>("/api/shots");
     if (Array.isArray(data)) {
       return (data as Shot[]).map(withVideoUrl);
-    }
-    if (data && typeof data === "object" && Array.isArray((data as ShotsResponse).shots)) {
-      return ((data as ShotsResponse).shots as Shot[]).map(withVideoUrl);
     }
     console.warn("fetchShots /api/shots returned non-array", data);
   } catch (err) {
@@ -53,23 +48,18 @@ export const fetchShots = async (): Promise<Shot[]> => {
 
 export const fetchShot = async (id: string): Promise<Shot> => {
   try {
-    const data = await client.get<unknown>(`/api/shots/${encodeURIComponent(id)}`);
-    if (data && typeof data === "object") {
-      const shotRes = data as ShotResponse;
-      if (shotRes.shot) return withVideoUrl(shotRes.shot as Shot);
-      if ((data as Shot).id) return withVideoUrl(data as Shot);
-    }
+    const shot = await client.get<Shot>(`/api/shots/${encodeURIComponent(id)}`);
+    return withVideoUrl(shot);
   } catch {
-    // ignore
+    // 최소 정보로 반환 (파일명으로 접근)
+    return withVideoUrl({
+      id,
+      filename: id,
+      videoUrl: `${API_BASE}/uploads/${encodeURIComponent(id)}`,
+      sourceType: "upload",
+      createdAt: new Date().toISOString(),
+    });
   }
-  // 최소 정보로 반환 (파일명으로 접근)
-  return withVideoUrl({
-    id,
-    filename: id,
-    videoUrl: `${API_BASE}/uploads/${encodeURIComponent(id)}`,
-    sourceType: "upload",
-    createdAt: new Date().toISOString(),
-  });
 };
 
 export const createShot = async (

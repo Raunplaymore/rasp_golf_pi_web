@@ -113,14 +113,35 @@ const extraMetricsSet = new Set([
   "initial_velocity",
 ]);
 
-const getValue = (analysis: ShotAnalysis, key: string) => {
+// 다양한 스키마(swing, swing_plane, ballFlight 등)를 포괄적으로 탐색
+const getValue = (analysis: ShotAnalysis & Record<string, any>, key: string) => {
+  const candidates: any[] = [
+    analysis,
+    analysis.swing_plane,
+    analysis.swing,
+    analysis.ballFlight,
+    analysis.impact,
+    analysis.low_point,
+    analysis.tempo,
+    analysis.body_motion,
+  ].filter(Boolean);
+
   const parts = key.split(".");
-  let current: any = analysis;
-  for (const part of parts) {
-    if (current == null) return undefined;
-    current = current[part];
+
+  for (const root of candidates) {
+    let current: any = root;
+    let found = true;
+    for (const part of parts) {
+      if (current == null || !(part in current)) {
+        found = false;
+        break;
+      }
+      current = current[part];
+    }
+    if (found && current !== undefined) return current;
   }
-  return current;
+
+  return undefined;
 };
 
 export function MetricsTable({ analysis }: MetricsTableProps) {
@@ -133,6 +154,8 @@ export function MetricsTable({ analysis }: MetricsTableProps) {
       </Card>
     );
   }
+
+  console.log('analysis:', analysis);
 
   const keyed = metricDefs.map((def) => ({
     ...def,
@@ -184,6 +207,7 @@ export function MetricsTable({ analysis }: MetricsTableProps) {
           {showMore && (
             <div className="mt-2 divide-y divide-slate-200">
               {extraMetrics.map((row) => (
+                console.log('row:', row),
                 <div
                   key={row.label}
                   className="flex items-center justify-between py-2 text-sm"
