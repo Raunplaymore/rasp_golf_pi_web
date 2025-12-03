@@ -33,6 +33,8 @@ export function MetricsTable({ analysis }: MetricsTableProps) {
       </Card>
     );
   }
+  
+  console.log('MetricsTable analysis:', analysis);
 
   return (
     <Card>
