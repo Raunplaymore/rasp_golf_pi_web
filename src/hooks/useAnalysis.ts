@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Shot, ShotAnalysis } from "../types/shots";
-import { fetchAnalysis, triggerAnalysis } from "../api/shots";
+import { fetchAnalysis } from "../api/shots";
 
 type UseAnalysisResult = {
   analysis: ShotAnalysis | null;
@@ -31,32 +31,13 @@ export function useAnalysis(selected: Shot | null): UseAnalysisResult {
       setIsLoading(true);
       setError(null);
 
-      // 백그라운드 분석 트리거 (없어도 무시)
-      await triggerAnalysis(selected.id);
-
-      const poll = async (attempt = 0) => {
-        try {
-          const result = await fetchAnalysis(selected.id);
-          if (cancelled) return;
-          if (result) {
-            setAnalysis(result);
-            setIsLoading(false);
-            return;
-          }
-          if (attempt < 10) {
-            timer = window.setTimeout(() => poll(attempt + 1), 3000);
-          } else {
-            setIsLoading(false);
-            setError("분석 결과를 가져오지 못했습니다.");
-          }
-        } catch (err) {
-          if (cancelled) return;
-          setIsLoading(false);
-          setError("분석 결과를 가져오지 못했습니다.");
-        }
-      };
-
-      poll();
+      const result = await fetchAnalysis(selected.id);
+      if (cancelled) return;
+      setAnalysis(result ?? null);
+      setIsLoading(false);
+      if (!result) {
+        setError("분석 결과가 없습니다.");
+      }
     };
 
     load();
