@@ -7,75 +7,75 @@ type MetricsTableProps = {
 };
 
 const metricDefs = [
-  { key: "club_path_angle", label: "Club path angle", tooltip: "클럽 패스 각도 (+: 아웃-인, -: 인-아웃)" },
+  { key: "club_path_angle", label: "Club path angle", labelKor: "클럽 패스 각도 (+: 아웃-인, -: 인-아웃)" },
   {
     key: "path_direction",
     label: "Path direction",
-    tooltip: "스윙 패스 방향 (in-to-in / out-to-in / in-to-out)",
+    labelKor: "스윙 패스 방향 (in-to-in / out-to-in / in-to-out)",
   },
   {
     key: "downswing_path_curve",
     label: "Downswing path curve",
-    tooltip: "다운스윙 경로 곡률(0~0.5, 높을수록 더 굽음)",
+    labelKor: "다운스윙 경로 곡률(0~0.5, 높을수록 더 굽음)",
   },
   {
     key: "shaft_forward_lean_at_impact",
     label: "Shaft forward lean",
-    tooltip: "임팩트 시 샤프트 전방 기울기(도)",
+    labelKor: "임팩트 시 샤프트 전방 기울기(도)",
   },
   {
     key: "shaft_angle_change_rate",
     label: "Shaft angle change rate",
-    tooltip: "다운스윙 중 샤프트 각도 변화율(도/프레임)",
+    labelKor: "다운스윙 중 샤프트 각도 변화율(도/프레임)",
   },
-  { key: "on_plane_ratio", label: "On plane ratio", tooltip: "스윙이 플레인에 올라탄 비율(0~1)" },
-  { key: "plane_deviation_std", label: "Plane deviation std", tooltip: "플레인 편차 표준편차(작을수록 안정)" },
+  { key: "on_plane_ratio", label: "On plane ratio", labelKor: "스윙이 플레인에 올라탄 비율(0~1)" },
+  { key: "plane_deviation_std", label: "Plane deviation std", labelKor: "플레인 편차 표준편차(작을수록 안정)" },
   {
     key: "low_point_position_relative_to_ball",
     label: "Low point position",
-    tooltip: "로우포인트 위치 (공 이전/이후/직전)",
+    labelKor: "로우포인트 위치 (공 이전/이후/직전)",
   },
-  { key: "low_point_depth", label: "Low point depth", tooltip: "로우포인트 깊이" },
+  { key: "low_point_depth", label: "Low point depth", labelKor: "로우포인트 깊이" },
   {
     key: "attack_angle_category",
     label: "Attack angle",
-    tooltip: "어택 앵글 범주 (steep/neutral/shallow)",
+    labelKor: "어택 앵글 범주 (steep/neutral/shallow)",
   },
-  { key: "tempo_ratio", label: "Tempo ratio", tooltip: "템포 비율(백스윙:다운스윙)" },
-  { key: "backswing_time_ms", label: "Backswing time (ms)", tooltip: "백스윙 시간(ms)" },
-  { key: "downswing_time_ms", label: "Downswing time (ms)", tooltip: "다운스윙 시간(ms)" },
-  { key: "acceleration_rate", label: "Acceleration rate", tooltip: "다운스윙 가속도 지표" },
+  { key: "tempo_ratio", label: "Tempo ratio", labelKor: "템포 비율(백스윙:다운스윙)" },
+  { key: "backswing_time_ms", label: "Backswing time (ms)", labelKor: "백스윙 시간(ms)" },
+  { key: "downswing_time_ms", label: "Downswing time (ms)", labelKor: "다운스윙 시간(ms)" },
+  { key: "acceleration_rate", label: "Acceleration rate", labelKor: "다운스윙 가속도 지표" },
   {
     key: "max_clubhead_speed_frame_index",
     label: "Max clubhead speed frame idx",
-    tooltip: "클럽헤드 최대 속도 프레임 인덱스",
+    labelKor: "클럽헤드 최대 속도 프레임 인덱스",
   },
-  { key: "vertical_launch_angle", label: "Vertical launch angle", tooltip: "수직 런치 각도(도)" },
+  { key: "vertical_launch_angle", label: "Vertical launch angle", labelKor: "수직 런치 각도(도)" },
   {
     key: "horizontal_launch_direction",
     label: "Horizontal launch direction",
-    tooltip: "수평 발사 방향(+: 우측, -: 좌측)",
+    labelKor: "수평 발사 방향(+: 우측, -: 좌측)",
   },
-  { key: "initial_velocity", label: "Initial velocity", tooltip: "초기 속도(상대값)" },
-  { key: "spin_bias", label: "Spin bias", tooltip: "스핀 성향(fade/draw)" },
-  { key: "side_curve_intensity", label: "Side curve intensity", tooltip: "사이드 커브 강도" },
-  { key: "apex_height_relative", label: "Apex height relative", tooltip: "상대 최고점" },
-  { key: "side_deviation", label: "Side deviation", tooltip: "좌/우 편차" },
-  { key: "projected_carry_distance", label: "Projected carry distance", tooltip: "예상 캐리 거리" },
+  { key: "initial_velocity", label: "Initial velocity", labelKor: "초기 속도(상대값)" },
+  { key: "spin_bias", label: "Spin bias", labelKor: "스핀 성향(fade/draw)" },
+  { key: "side_curve_intensity", label: "Side curve intensity", labelKor: "사이드 커브 강도" },
+  { key: "apex_height_relative", label: "Apex height relative", labelKor: "상대 최고점" },
+  { key: "side_deviation", label: "Side deviation", labelKor: "좌/우 편차" },
+  { key: "projected_carry_distance", label: "Projected carry distance", labelKor: "예상 캐리 거리" },
   {
     key: "head_movement.horizontal",
     label: "Head movement (H)",
-    tooltip: "머리 이동량(가로)",
+    labelKor: "머리 이동량(가로)",
   },
   {
     key: "head_movement.vertical",
     label: "Head movement (V)",
-    tooltip: "머리 이동량(세로)",
+    labelKor: "머리 이동량(세로)",
   },
-  { key: "upper_body_tilt_change", label: "Upper body tilt change", tooltip: "상체 기울기 변화" },
-  { key: "shoulder_angle_at_address", label: "Shoulder angle (address)", tooltip: "셋업 시 어깨 각도" },
-  { key: "shoulder_angle_at_impact", label: "Shoulder angle (impact)", tooltip: "임팩트 시 어깨 각도" },
-  { key: "shot_type", label: "Shot type", tooltip: "샷 구질 분류" },
+  { key: "upper_body_tilt_change", label: "Upper body tilt change", labelKor: "상체 기울기 변화" },
+  { key: "shoulder_angle_at_address", label: "Shoulder angle (address)", labelKor: "셋업 시 어깨 각도" },
+  { key: "shoulder_angle_at_impact", label: "Shoulder angle (impact)", labelKor: "임팩트 시 어깨 각도" },
+  { key: "shot_type", label: "Shot type", labelKor: "샷 구질 분류" },
 ];
 
 const keyMetricsSet = new Set([
@@ -176,17 +176,17 @@ export function MetricsTable({ analysis }: MetricsTableProps) {
           >
             <div className="flex items-center gap-2 text-slate-600">
               <span>{row.label}</span>
-              {row.tooltip && (
+              {row.labelKor && (
                 <div className="relative group">
                   <button
                     type="button"
                     className="w-4 h-4 rounded-full border border-slate-400 text-[10px] leading-3 text-slate-600 flex items-center justify-center hover:bg-slate-100"
-                    aria-label={row.tooltip}
+                    aria-label={row.labelKor}
                   >
                     i
                   </button>
                   <div className="absolute left-1/2 -translate-x-1/2 top-full mt-1 hidden group-hover:block z-10 whitespace-normal break-words rounded bg-slate-800 text-white text-xs px-3 py-2 shadow-lg w-max max-w-[320px] text-left leading-relaxed">
-                    {row.tooltip}
+                    {row.labelKor}
                   </div>
                 </div>
               )}
@@ -214,17 +214,17 @@ export function MetricsTable({ analysis }: MetricsTableProps) {
                 >
                   <div className="flex items-center gap-2 text-slate-600">
                     <span>{row.label}</span>
-                    {row.tooltip && (
+                    {row.labelKor && (
                       <div className="relative group">
                         <button
                           type="button"
                           className="w-4 h-4 rounded-full border border-slate-400 text-[10px] leading-3 text-slate-600 flex items-center justify-center hover:bg-slate-100"
-                          aria-label={row.tooltip}
+                          aria-label={row.labelKor}
                         >
                           i
                         </button>
                         <div className="absolute left-1/2 -translate-x-1/2 top-full mt-1 hidden group-hover:block z-10 whitespace-normal break-words rounded bg-slate-800 text-white text-xs px-3 py-2 shadow-lg w-max max-w-[320px] text-left leading-relaxed">
-                          {row.tooltip}
+                          {row.labelKor}
                         </div>
                       </div>
                     )}
