@@ -166,7 +166,7 @@ export function MetricsTable({ analysis }: MetricsTableProps) {
                   >
                     i
                   </button>
-                  <div className="absolute left-0 top-full mt-1 hidden group-hover:block z-10 whitespace-pre-line rounded bg-slate-800 text-white text-xs px-3 py-2 shadow-lg min-w-[200px] max-w-[320px] break-keep">
+                  <div className="absolute left-1/2 -translate-x-1/2 top-full mt-1 hidden group-hover:block z-10 whitespace-normal break-words rounded bg-slate-800 text-white text-xs px-3 py-2 shadow-lg w-max max-w-[320px] text-left leading-relaxed">
                     {row.tooltip}
                   </div>
                 </div>
