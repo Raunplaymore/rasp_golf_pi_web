@@ -16,18 +16,5 @@ module.exports = {
         PORT: 4173,
       },
     },
-    {
-      name: "hailo-front-dev",
-      // 개발용 Vite dev 서버 (필요 시만 사용)
-      cwd: process.env.FRONT_HOME || "/home/ray/hailo-front/current",
-      script: "npm",
-      args: "run dev -- --host 0.0.0.0 --port 5173",
-      exec_mode: "fork",
-      instances: 1,
-      env: {
-        NODE_ENV: "development",
-        PORT: 5173,
-      },
-    },
   ],
 };
