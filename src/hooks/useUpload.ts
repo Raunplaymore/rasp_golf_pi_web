@@ -13,12 +13,22 @@ export function useUpload(options?: UseUploadOptions) {
   const start = async (
     file: File,
     sourceType: "upload" | "camera" = "upload",
-    club?: string
+    options?: {
+      club?: string;
+      fps?: number;
+      roi?: string;
+      cam_distance?: number;
+      cam_height?: number;
+      h_fov?: number;
+      v_fov?: number;
+      impact_frame?: number;
+      track_frames?: number;
+    }
   ): Promise<Shot | undefined> => {
     setIsUploading(true);
     setMessage("업로드 중...");
     try {
-      const shot = await createShot(file, sourceType, club);
+      const shot = await createShot(file, sourceType, options);
       setMessage("업로드 완료!");
       options?.onSuccess?.(shot);
       return shot;

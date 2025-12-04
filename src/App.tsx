@@ -77,8 +77,8 @@ function App() {
         <UploadCard
           isUploading={upload.isUploading}
           message={upload.message}
-          onUpload={async (file, club) => {
-            const shot = await upload.start(file, "upload", club);
+          onUpload={async (file, options) => {
+            const shot = await upload.start(file, "upload", options);
             if (shot) {
               await refresh();
               select(shot);

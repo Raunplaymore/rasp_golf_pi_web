@@ -76,12 +76,30 @@ export const fetchShot = async (id: string): Promise<Shot> => {
 export const createShot = async (
   file: File,
   sourceType: "upload" | "camera" = "upload",
-  club?: string
+  options?: {
+    club?: string;
+    fps?: number;
+    roi?: string;
+    cam_distance?: number;
+    cam_height?: number;
+    h_fov?: number;
+    v_fov?: number;
+    impact_frame?: number;
+    track_frames?: number;
+  }
 ) => {
   const fd = new FormData();
   fd.append("video", file);
   fd.append("sourceType", sourceType);
-  if (club) fd.append("club", club);
+  if (options?.club) fd.append("club", options.club);
+  if (options?.fps != null) fd.append("fps", String(options.fps));
+  if (options?.roi) fd.append("roi", options.roi);
+  if (options?.cam_distance != null) fd.append("cam_distance", String(options.cam_distance));
+  if (options?.cam_height != null) fd.append("cam_height", String(options.cam_height));
+  if (options?.h_fov != null) fd.append("h_fov", String(options.h_fov));
+  if (options?.v_fov != null) fd.append("v_fov", String(options.v_fov));
+  if (options?.impact_frame != null) fd.append("impact_frame", String(options.impact_frame));
+  if (options?.track_frames != null) fd.append("track_frames", String(options.track_frames));
   const res = await client.post<UploadRes>("/api/upload?analyze=true", fd);
   if (res.shot) {
     return withVideoUrl(res.shot);
